@@ -2,3 +2,6 @@ gradio
 chromadb
 sentence-transformers
 google-genai
+torch
+numpy
+scikit-learn
