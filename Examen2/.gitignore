@@ -16,3 +16,6 @@ corpus/arxiv_embeddings.npy
 corpus/arxiv_ids.npy
 chroma_db/
 corpus/arxiv_corpus_limpio.csv
+Notebook_Examen_RAG_arXiv.ipynb
+Notebook_Examen_RAG_arXiv_CORREGIDO.ipynb
+corpus/
