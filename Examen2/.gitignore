@@ -1,0 +1,18 @@
+# Entorno virtual
+.venv/
+
+# Variables de entorno
+.env
+
+# Cachés
+__pycache__/
+.ipynb_checkpoints/
+
+# Gradio
+.gradio/
+
+# Embeddings (se regeneran o ya están en ChromaDB)
+corpus/arxiv_embeddings.npy
+corpus/arxiv_ids.npy
+chroma_db/
+corpus/arxiv_corpus_limpio.csv
