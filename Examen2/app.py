@@ -2,24 +2,28 @@ import os
 
 import chromadb
 import gradio as gr
+from dotenv import load_dotenv
 from google import genai
 from sentence_transformers import CrossEncoder, SentenceTransformer
+
+
+load_dotenv()
+
 
 MODELO_EMBEDDINGS = "sentence-transformers/all-MiniLM-L6-v2"
 MODELO_RERANKER = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 MODELO_GEMINI = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
-RUTA_CHROMA = "chroma_db"
+
+RUTA_CHROMA = "chroma_db_demo"
 NOMBRE_COLECCION = "arxiv_papers"
 
-RESPUESTA_FUERA_DE_DOMINIO = (
-    "Lo siento, esta consulta no está relacionada con el dominio "
-    "del corpus de artículos científicos de arXiv o no existe "
-    "información suficiente para responderla."
-)
 
 api_key = os.getenv("GEMINI_API_KEY")
+
 if not api_key:
-    raise RuntimeError("No se encontró la variable GEMINI_API_KEY.")
+    raise RuntimeError(
+        "No se encontró la variable GEMINI_API_KEY."
+    )
 
 cliente_gemini = genai.Client(api_key=api_key)
 modelo_embeddings = SentenceTransformer(MODELO_EMBEDDINGS)
@@ -94,7 +98,11 @@ def generar_respuesta(prompt):
     texto = getattr(respuesta, "text", None)
     return texto.strip() if texto else "The corpus does not contain enough information to answer this question."
 
-
+RESPUESTA_FUERA_DE_DOMINIO = (
+    "Lo siento, esta consulta no está relacionada con el dominio "
+    "del corpus de artículos científicos de arXiv o no existe "
+    "información suficiente para responderla."
+)
 def responder_rag(consulta, top_k=15, top_n=5, umbral_similitud=0.30, umbral_reranking=-2.0):
     if not isinstance(consulta, str) or not consulta.strip():
         raise ValueError("La consulta no puede estar vacía.")
